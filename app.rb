@@ -21,11 +21,17 @@ post '/visit' do
 	@date = params[:date]
 	@color = params[:colorpicker]
 
+	if @username == ''
+		@error = 'Enter username'
+		return erb :visit
+	end
+
 	f = File.open './public/file.txt', 'a'
 	f.write "Barber is: #{@barber}, Username: #{@username}, date: #{@date}, color: #{@color}"
 	f.close
 
 	erb "Dear #{@username}! We will wait for you on #{@date}. Remember, your barber is #{@barber} and color is #{@color}"
+
 end
 
 
@@ -38,7 +44,7 @@ post '/contacts' do
 	@textarea = params[:textarea]
 
 	f = File.open './public/contacts.txt', 'a'
-	f.write "===Email: #{@email}, message: #{@textarea}===/r/n"
+	f.write "===Email: #{@email}, message: #{@textarea}==="
 	f.close
 
 	erb 'Thank you for your message. We will contact you as soon as possible.'
