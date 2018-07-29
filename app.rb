@@ -21,9 +21,19 @@ post '/visit' do
 	@date = params[:date]
 	@color = params[:colorpicker]
 
-	if @username == ''
-		@error = 'Enter username'
-		return erb :visit
+
+	hh = {
+		:username => 'Enter username',
+		:date => 'Enter date'
+	}
+
+	hh.each do |key, value|
+		if params[key] == ''
+
+			@error = hh[key]
+			return erb :visit
+			
+		end
 	end
 
 	f = File.open './public/file.txt', 'a'
