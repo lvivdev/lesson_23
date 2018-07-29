@@ -21,26 +21,31 @@ post '/visit' do
 	@date = params[:date]
 	@color = params[:colorpicker]
 
-
 	hh = {
 		:username => 'Enter username',
 		:date => 'Enter date'
 	}
 
-	hh.each do |key, value|
-		if params[key] == ''
+	@error = hh.select {|key,_| params[key] == ''}.values.join(", ")
 
-			@error = hh[key]
-			return erb :visit
-			
-		end
+	if @error != ''
+    	return erb :visit
 	end
+	
+	# hh.each do |key, value|
+	# 	if params[key] == ''
+
+	# 		@error = hh[key]
+	# 		return erb :visit
+			
+	# 	end
+	# end
 
 	f = File.open './public/file.txt', 'a'
 	f.write "Barber is: #{@barber}, Username: #{@username}, date: #{@date}, color: #{@color}"
 	f.close
 
-	erb "Dear #{@username}! We will wait for you on #{@date}. Remember, your barber is #{@barber} and color is #{@color}"
+	erb "Username: #{@username}, date: #{@date}, barber: #{@barber}, color: #{@color}"
 
 end
 
