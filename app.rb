@@ -58,6 +58,17 @@ post '/contacts' do
 	@email = params[:email]
 	@textarea = params[:textarea]
 
+	hh = {
+		:email => 'Enter email',
+		:textarea => 'Enter text'
+	}
+
+	@error = hh.select {|key,_| params[key] == ''}.values.join(", ")
+
+	if @error != ''
+		return erb :contacts
+	end
+
 	f = File.open './public/contacts.txt', 'a'
 	f.write "===Email: #{@email}, message: #{@textarea}==="
 	f.close
