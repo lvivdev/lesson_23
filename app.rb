@@ -2,6 +2,18 @@
 require 'rubygems'
 require 'sinatra'
 require 'sinatra/reloader'
+require 'sqlite3'
+
+configure do
+	@db = SQLite3::Database.new 'barbershop.db'
+	@db.execute 'CREATE TABLE IF NOT EXISTS `Users` ( 
+	`id` INTEGER PRIMARY KEY AUTOINCREMENT, 
+	`barber` TEXT, 
+	`username` TEXT, 
+	`date_stamp` TEXT, 
+	`color` TEXT 
+	)'
+end
 
 get '/' do
 	erb "Hello! <a href=\"https://github.com/bootstrap-ruby/sinatra-bootstrap\">Original</a> pattern has been modified for <a href=\"http://rubyschool.us/\">Ruby School</a>"			
@@ -18,12 +30,12 @@ end
 post '/visit' do
 	@barber = params[:barber]
 	@username = params[:username]
-	@date = params[:date]
+	@date_stamp = params[:date_stamp]
 	@color = params[:colorpicker]
 
 	hh = {
 		:username => 'Enter username',
-		:date => 'Enter date'
+		:date_stamp => 'Enter date'
 	}
 
 	@error = hh.select {|key,_| params[key] == ''}.values.join(", ")
@@ -42,10 +54,10 @@ post '/visit' do
 	# end
 
 	f = File.open './public/file.txt', 'a'
-	f.write "Barber is: #{@barber}, Username: #{@username}, date: #{@date}, color: #{@color}"
+	f.write "Barber is: #{@barber}, Username: #{@username}, date: #{@date_stamp}, color: #{@color}"
 	f.close
 
-	erb "Username: #{@username}, date: #{@date}, barber: #{@barber}, color: #{@color}"
+	erb "Username: #{@username}, date: #{@date_stamp}, barber: #{@barber}, color: #{@color}"
 
 end
 
