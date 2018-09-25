@@ -5,14 +5,15 @@ require 'sinatra/reloader'
 require 'sqlite3'
 
 configure do
-	@db = get_db
-	@db.execute 'CREATE TABLE IF NOT EXISTS `Users` ( 
+	db = get_db
+	db.execute 'CREATE TABLE IF NOT EXISTS `Users` ( 
 	`id` INTEGER PRIMARY KEY AUTOINCREMENT, 
 	`barber` TEXT, 
 	`username` TEXT, 
 	`date_stamp` TEXT, 
 	`color` TEXT 
 	)'
+	db.close
 end
 
 get '/' do
@@ -53,15 +54,15 @@ post '/visit' do
 	# 	end
 	# end
 
-	@db = get_db
-	@db.execute 'insert into Users (
+	db = get_db
+	db.execute 'insert into Users (
 	barber,
 	username,
 	date_stamp,
 	color
 	)
 	values (?, ?, ?, ?)',[@barber, @username, @date_stamp, @color]
-
+	db.close
 
 	erb "Username: #{@username}, date: #{@date_stamp}, barber: #{@barber}, color: #{@color}"
 
