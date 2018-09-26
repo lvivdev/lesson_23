@@ -95,3 +95,7 @@ post '/contacts' do
 
 	erb 'Thank you for your message. We will contact you as soon as possible.'
 end
+
+get '/showusers' do
+  erb :showusers
+end
