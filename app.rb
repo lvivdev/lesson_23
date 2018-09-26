@@ -4,6 +4,11 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'sqlite3'
 
+
+def get_db
+	return SQLite3::Database.new 'barbershop.db'
+end
+
 configure do
 	db = get_db
 	db.execute 'CREATE TABLE IF NOT EXISTS `Users` ( 
@@ -89,8 +94,4 @@ post '/contacts' do
 	end
 
 	erb 'Thank you for your message. We will contact you as soon as possible.'
-end
-
-def get_db
-	return SQLite3::Database.new 'barbershop.db'
 end
