@@ -1,3 +1,4 @@
+<%= @results %>
 <table class="table table-striped">
 
     <thead>
@@ -7,16 +8,16 @@
       <td>Цвет волос</td>
     </thead>
     
-  <body>  
+  <tbody>  
     <% @results.each do |row| %>
 
       <tr>
-        <td><%= row[1] %></td>
-        <td><%= row[2] %></td>
-        <td><%= row[3] %></td>
-        <td><%= row[4] %></td>
+        <td><%= row['barber'] %></td>
+        <td><%= row['username'] %></td>
+        <td><%= row['date_stamp'] %></td>
+        <td><%= row['color'] %></td>
       </tr>  
 
     <% end %>
-  </body>  
+  </tbody>  
 </table>
