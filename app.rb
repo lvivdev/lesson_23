@@ -40,6 +40,12 @@ configure do
 	"id" INTEGER PRIMARY KEY AUTOINCREMENT, 
 	"name" TEXT
 	)'
+	db.execute 'CREATE TABLE IF NOT EXISTS "Messages" ( 
+	"id" INTEGER PRIMARY KEY AUTOINCREMENT, 
+	"email" TEXT,
+	"textarea" TEXT
+	)'
+
 
 	seed_db db, ['Jessie Pinkman', 'Walter White', 'Gus Fring', 'Mike Ehrmantraut']
 end
@@ -92,7 +98,7 @@ post '/visit' do
 	values (?, ?, ?, ?)',[@barber, @username, @date_stamp, @color]
 	db.close
 
-	erb "Username: #{@username}, date: #{@date_stamp}, barber: #{@barber}, color: #{@color}"
+	erb '<h2>Спасибо! Вы записались!</h2>'
 
 end
 
@@ -116,6 +122,14 @@ post '/contacts' do
 		return erb :contacts
 	end
 
+	db = get_db
+	db.execute'INSERT INTO Messages(
+	email,
+	textarea	
+	)
+	values (?, ?)',[@email, @textarea]
+	db.close 
+
 	erb 'Thank you for your message. We will contact you as soon as possible.'
 end
 
@@ -124,4 +138,11 @@ get '/showusers' do
 	@results = db.execute 'select * from Users order by id desc'
 	
 	erb :showusers
+end
+
+get '/showcontacts' do
+	db = get_db
+	@letters = db.execute 'select * from Messages order by id desc'
+
+	erb :showcontacts
 end

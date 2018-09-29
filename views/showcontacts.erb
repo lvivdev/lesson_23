@@ -1,0 +1,14 @@
+<table class="table table-striped">
+	<thead>
+		<td>Email</td>
+		<td>Text</td>
+	</thead>
+	<tbody>
+		<% @letters.each do |item| %>
+			<tr>
+				<td><%= item['email'] %></td>
+				<td><%= item['textarea'] %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
